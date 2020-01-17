@@ -88,9 +88,11 @@ export default {
     }
   },
   watch: {
-    checkAll() {
+    CheckAll() {
       if (this.CheckAll) {
         this.status = true;
+      } else {
+        this.status = this.todos.status;
       }
     }
   }

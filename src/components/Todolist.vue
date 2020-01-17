@@ -25,19 +25,8 @@
     </transition-group>
 
     <div class="extras">
-      <div>
-        <label for="checkAll">
-          CheckAll
-          <input
-            type="checkbox"
-            name="checkAll"
-            id="checkAll"
-            :checked="!all"
-            @change="todoChackAll"
-          />
-        </label>
-      </div>
-      <div>{{remining}} items left</div>
+      <any-remaning :anyRemaning="all" />
+      <remaning-item :remining="remining" />
     </div>
 
     <div class="extras">
@@ -52,11 +41,15 @@
 
 <script>
 import TodoItem from "./TodoItem";
+import Remaning from "./Remaning";
+import Anyremaning from "./AnyRemaning";
 
 export default {
   name: "todolist",
   components: {
-    "todo-item": TodoItem
+    "todo-item": TodoItem,
+    "remaning-item": Remaning,
+    "any-remaning": Anyremaning
   },
   data() {
     return {
@@ -156,6 +149,12 @@ export default {
     finishing(data) {
       this.todo.splice(data.index, 1, data.todo);
     }
+  },
+  created() {
+    this.$eventBus.$on("check-all", checked => this.todoChackAll(checked));
+  },
+  beforeDestroy() {
+    this.$eventBus.$off("check-all");
   }
 };
 </script>
@@ -179,7 +178,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition-duration: 0.1s;
+  animation-direction: 0.1s;
 }
 
 .chacked {
